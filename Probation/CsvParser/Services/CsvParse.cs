@@ -14,17 +14,19 @@ namespace CsvParser.Services
         private static char _delimeter;
         public static List<Payment> CsvParseToPayment(string pathFile)
         {
-            List<Payment> payments = new List<Payment>();
             if (!File.Exists(pathFile))
             {
                 Console.WriteLine($"File {pathFile} doesn't exist!");
                 return null;
             }
-            List<Payment> Payments = new List<Payment>();
-            using(StreamReader sr = new StreamReader(pathFile, Encoding.Default))
+  
+            List<Payment> payments = new List<Payment>();
+            Delimeter(pathFile);
+
+            using (StreamReader sr = new StreamReader(pathFile, Encoding.Default))
             {
-                var line = sr.ReadLine();
-                while (line != null)
+                string line = string.Empty;
+                while ((line = sr.ReadLine()) != null)
                 {
                     var payment = new Payment();
                     if (payment.TryParseRow(line, _delimeter))
@@ -34,10 +36,10 @@ namespace CsvParser.Services
                 }
             }
 
-            return Payments;
+            return payments;
         }
 
-        void Delimeter(string pathFile)
+        private static void Delimeter(string pathFile)
         {
             string line = String.Empty;
             List<char> delimeters = new List<char> { ',', ';', '\t', '|'};
