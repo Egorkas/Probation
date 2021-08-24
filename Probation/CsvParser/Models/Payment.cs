@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CsvParser.Models
 {
-    class Payment
+    public class Payment
     {
         public string Name { get; set; }
         public PaymentType Type { get; set; }

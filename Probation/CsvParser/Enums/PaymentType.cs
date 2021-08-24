@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CsvParser.Enums
 {
-    enum PaymentType
+    public enum PaymentType
     {
         House,
         Car,

@@ -1,4 +1,5 @@
 ﻿using CsvParser.Enums;
+using CsvParser.Extensions;
 using CsvParser.Models;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,10 @@ namespace CsvParser.Services
 {
     class CsvParse
     {
-        private char _delimeter;
+        private static char _delimeter;
         public static List<Payment> CsvParseToPayment(string pathFile)
         {
+            List<Payment> payments = new List<Payment>();
             if (!File.Exists(pathFile))
             {
                 Console.WriteLine($"File {pathFile} doesn't exist!");
@@ -24,36 +26,16 @@ namespace CsvParser.Services
                 var line = sr.ReadLine();
                 while (line != null)
                 {
-                    //if (Try)
+                    var payment = new Payment();
+                    if (payment.TryParseRow(line, _delimeter))
+                    {
+                        payments.Add(payment);
+                    }
                 }
             }
 
             return Payments;
         }
-
-        static bool TryParseRow(string lineRow)
-        {
-            var payment = new Payment();
-            try
-            {
-                var columns = lineRow.Split(_delimeter);
-
-                if(columns.Count() == 5)
-                {
-                    payment.Name = columns[0];
-                    payment.Type = (PaymentType)Int32.Parse(columns[1]);
-                    payment.Description = columns[2];
-                    payment.Quantity = Int32.Parse(columns[3]);
-                    payment.DeliveryTime = TimeSpan.Parse(columns[4]);
-                    return true;
-                }
-                return false;
-            }catch (Exception ex)
-            {
-                return false;
-            }
-        }
-        
 
         void Delimeter(string pathFile)
         {
