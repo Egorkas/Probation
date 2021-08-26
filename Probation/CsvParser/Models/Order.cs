@@ -4,8 +4,9 @@ using System.Text;
 
 namespace CsvParser.Models
 {
-    class Order
+    public class Order
     {
+        public int UserId { get; set; }
         public decimal Price { get; set; }
     }
 }
