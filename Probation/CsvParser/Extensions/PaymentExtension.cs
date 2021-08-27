@@ -15,13 +15,14 @@ namespace CsvParser.Extensions
             {
                 var columns = lineRow.Split(delimeter);
 
-                if (columns.Count() == 5)
+                if (columns.Count() == 6)
                 {
-                    payment.Name = columns[0];
-                    payment.Type = (PaymentType)int.Parse(columns[1]);
-                    payment.Description = columns[2];
-                    payment.Quantity = Int32.Parse(columns[3]);
-                    payment.DeliveryTime = TimeSpan.Parse(columns[4]);
+                    payment.UserId = int.Parse(columns[0]);
+                    payment.Name = columns[1];
+                    payment.Type = (PaymentType)int.Parse(columns[2]);
+                    payment.Description = columns[3];
+                    payment.Quantity = Int32.Parse(columns[4]);
+                    payment.DeliveryTime = TimeSpan.Parse(columns[5]);
                     return true;
                 }
                 return false;
