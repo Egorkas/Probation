@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using CsvParser.Services;
 
 namespace CsvParser
 {
@@ -6,12 +8,14 @@ namespace CsvParser
     {
         static void Main(string[] args)
         {
-            string path = @"f:\Probation\Probation\test.csv";
-            var list = CsvParser.Services.CsvParse.CsvParseToPayment(path);
+            string pathCsv = @"d:\Probation\Probation\test.csv";
+            string pathJson = @"d:\Probation\Probation\test.json";
+
+            var list = JsonParse.ParseJson(pathJson, pathCsv);
 
             foreach (var item in list)
             {
-                Console.WriteLine(item.Name + ' ' + item.Description + ' ' + item.DeliveryTime.ToString());
+                Console.WriteLine(item.Name + ' ' +"Count of payment for this user is "+ item.Payments.Count() + "\n" + "Count of order for this user is " + item.Orders.Count() );
             }
             Console.WriteLine("Hello World!");
         }
