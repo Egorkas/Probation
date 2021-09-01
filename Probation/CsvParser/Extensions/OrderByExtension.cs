@@ -7,7 +7,7 @@ using System.Text;
 
 namespace CsvParser.Extensions
 {
-    public static class OrderByExtensions
+    public static class OrderByExtension
     {
         public static IEnumerable<T> OrderBy<T>(this IEnumerable<T> source, string propertyName)
         {
