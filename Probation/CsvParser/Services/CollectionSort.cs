@@ -1,5 +1,6 @@
 ﻿using CsvParser.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -9,24 +10,28 @@ namespace CsvParser.Services
 {
     public class CollectionSort
     {
-        private List<PropertyInfo> _properties;
-        public void DisplayPropertyForSort()
+        private static List<PropertyInfo> _properties;
+        public static IEnumerable<PropertyInfo> GetProperty<T>(List<T>  list)
         {
-            var properiesOfUser = typeof(User)
+            if (list == null)
+            {
+                Console.WriteLine($"List {list} is null.");
+                return null;
+            }
+            
+            var propList = typeof(T)
                 .GetProperties(BindingFlags.Instance | BindingFlags.Public).ToList();
-
-            foreach (var item in properiesOfUser)
-            {
-                Console.WriteLine(item.Name);
-            }
-
-            Console.WriteLine("Enter the name of property");
-            var propertyName = Console.ReadLine();
-            if (!properiesOfUser.Exists(x => x.Name == propertyName))
-            {
-                Console.WriteLine("This property isn't exist!");
-            }
-            //list = list.OrderBy(propertyName).ToList();
+            return propList;
+            //var listOfGenProp = propertiesOfModel
+            //    .Where(x => x.PropertyType != typeof(string) && typeof(IEnumerable).IsAssignableFrom(x.PropertyType));
         }
+
+        public static void ChoosePropForSort<T>(List<T> listForSort)
+        {
+            Console.WriteLine("Collectin has such property for sorting:");
+
+        }
+
+
     }
 }
