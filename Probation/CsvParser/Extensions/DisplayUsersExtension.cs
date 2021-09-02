@@ -10,6 +10,7 @@ namespace CsvParser.Extensions
     {
         public static void Display(this IEnumerable<User> list)
         {
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
             foreach (var item in list)
             {
                 Console.WriteLine(item.Id + "\n" + item.Name + "\n" + item.SecondName);
@@ -27,6 +28,7 @@ namespace CsvParser.Extensions
                     Console.WriteLine($"{i+1}.Order Price - " + item.Orders[i].Price );
                 }
             }
+            Console.ResetColor();
         }
     }
 }
