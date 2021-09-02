@@ -55,13 +55,7 @@ namespace CsvParser.Services
 
                 if (propForSort.Equals("Payments"))
                 {
-                    var list1 = SortForPaymentName(listForSort);
-                    foreach (var item in list1)
-                    {
-                        Console.WriteLine(item.DeliveryTime);
-                    }
-                    SortForPayment(listForSort);
-                    return OrderForPayments(listForSort, typeOfOrder);
+                    SortForPayment(listForSort, typeOfOrder);
                 }
                 else if (propForSort.Equals("Orders"))
                 {
@@ -75,7 +69,7 @@ namespace CsvParser.Services
             return null;
         }
 
-        private static IEnumerable<User> SortForPayment(IEnumerable<User> list)
+        private static IEnumerable<User> SortForPayment(IEnumerable<User> list, int typeOfOrder)
         {
             WriteWithColor("User.Paiment has such property for sorting:", ConsoleColor.DarkGray);
             var prop = typeof(Payment)
@@ -92,9 +86,13 @@ namespace CsvParser.Services
                 return propForSort switch
                 {
                     "Name" => SortForPaymentName(list),
+                    "Type" => SortForPaymentType(list),
+                    "DeliveryTime" => SortForPaymentTime(list),
+                    _ => OrderForPayments(list, typeOfOrder)
                 };
             }
-            
+
+            WriteWithColor("Your property doesn't exist!", ConsoleColor.DarkRed);
             return list;
         }
 
@@ -117,7 +115,6 @@ namespace CsvParser.Services
             WriteWithColor("Tis Name isn't exist in this collection!", ConsoleColor.DarkRed);    
             return list;
         }
-
 
         private static IEnumerable<User> SortForPaymentType(IEnumerable<User> list)
         {
@@ -147,6 +144,32 @@ namespace CsvParser.Services
                 WriteWithColor("This type isn't exist!", ConsoleColor.DarkRed);
                 return list;
             }
+        }
+
+        private static IEnumerable<User> SortForPaymentTime(IEnumerable<User> list)
+        {
+            var sortedList = new List<User>();
+            var paymentList = GetPayments(list);
+
+            WriteWithColor("Enter the  max Time(number of hours): ", ConsoleColor.Red);
+            TimeSpan time = default;
+            if(!TimeSpan.TryParse(Console.ReadLine(), out time))
+            {
+                WriteWithColor("You enter no valid time!", ConsoleColor.DarkRed);
+                return list;
+            }
+
+            if (paymentList.Any(x => x.DeliveryTime >= time))
+            {
+                foreach (var item in paymentList)
+                {
+                    sortedList.AddRange(list.Where(x => x.Id == item.UserId));
+                }
+                return sortedList;
+            }
+
+            WriteWithColor("There are no elements less than your time!", ConsoleColor.DarkRed);
+            return list;
         }
         private static IEnumerable<Payment> GetPayments(IEnumerable<User> list)
         {
