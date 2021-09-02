@@ -9,14 +9,14 @@ namespace CsvParser
     {
         static void Main(string[] args)
         {
-            string pathCsv = @"d:\Probation\Probation\test.csv";
-            string pathJson = @"d:\Probation\Probation\test.json";
+            string pathCsv = @"f:\Probation\Probation\test.csv";
+            string pathJson = @"f:\Probation\Probation\test.json";
 
             var list = JsonParse.ParseJson(pathJson, pathCsv);
 
             list.Display();
 
-
+            
             var sortedList = CollectionSort.ChoosePropForSort(list);
             sortedList.Display();
             
