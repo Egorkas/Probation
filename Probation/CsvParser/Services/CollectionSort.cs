@@ -55,7 +55,7 @@ namespace CsvParser.Services
 
                 if (propForSort.Equals("Payments"))
                 {
-                    SortForPayment(listForSort, typeOfOrder);
+                    return SortForPayment(listForSort, typeOfOrder);
                 }
                 else if (propForSort.Equals("Orders"))
                 {
@@ -107,7 +107,7 @@ namespace CsvParser.Services
             {
                 foreach (var item in paymentList)
                 {
-                    sortedList.AddRange(list.Where(x => x.Id == item.UserId));
+                    sortedList.AddRange(list.Where(x => item.Name == name && x.Id == item.UserId));
                 }
                 return sortedList;
             }
@@ -130,9 +130,10 @@ namespace CsvParser.Services
                 var type = (PaymentType)Enum.Parse(typeof(PaymentType), Console.ReadLine());
                 if (paymentList.Any(x => x.Type == type))
                 {
+                    //var 
                     foreach (var item in paymentList)
                     {
-                        sortedList.AddRange(list.Where(x => x.Id == item.UserId));
+                        sortedList.AddRange(list.Where(x => item.Type == type && x.Id == item.UserId));
                     }
                     return sortedList;
                 }
@@ -163,7 +164,7 @@ namespace CsvParser.Services
             {
                 foreach (var item in paymentList)
                 {
-                    sortedList.AddRange(list.Where(x => x.Id == item.UserId));
+                    sortedList.AddRange(list.Where(x => item.DeliveryTime >= time && x.Id == item.UserId));
                 }
                 return sortedList;
             }

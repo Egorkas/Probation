@@ -9,8 +9,8 @@ namespace CsvParser
     {
         static void Main(string[] args)
         {
-            string pathCsv = @"f:\Probation\Probation\test.csv";
-            string pathJson = @"f:\Probation\Probation\test.json";
+            string pathCsv = @"d:\Probation\Probation\test.csv";
+            string pathJson = @"d:\Probation\Probation\test.json";
 
             var list = JsonParse.ParseJson(pathJson, pathCsv);
 
