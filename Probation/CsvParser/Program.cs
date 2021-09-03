@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using CsvParser.Extensions;
 using CsvParser.Services;
 
 namespace CsvParser
@@ -13,11 +14,11 @@ namespace CsvParser
 
             var list = JsonParse.ParseJson(pathJson, pathCsv);
 
-            foreach (var item in list)
-            {
-                Console.WriteLine(item.Name + ' ' +"Count of payment for this user is "+ item.Payments.Count() + "\n" + "Count of order for this user is " + item.Orders.Count() );
-            }
-            Console.WriteLine("Hello World!");
+            list.Display();
+
+            
+            var sortedList = CollectionSort.ChoosePropForSort(list);
+            sortedList.Display();
         }
     }
 }
