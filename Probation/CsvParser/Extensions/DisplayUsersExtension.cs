@@ -10,6 +10,11 @@ namespace CsvParser.Extensions
     {
         public static void Display(this IEnumerable<User> list)
         {
+            if (list == null)
+            {
+                Console.WriteLine("This Collection empty!");
+                return;
+            }
             Console.ForegroundColor = ConsoleColor.DarkBlue;
             foreach (var item in list)
             {

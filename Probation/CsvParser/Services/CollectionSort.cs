@@ -59,7 +59,7 @@ namespace CsvParser.Services
                 }
                 else if (propForSort.Equals("Orders"))
                 {
-                   return OrderForOrders(listForSort, typeOfOrder);
+                   return SortForOrder(listForSort, typeOfOrder);
                 }
 
                 return typeOfOrder == 0 ? listForSort.OrderBy(propForSort) : listForSort.OrderByDescending(propForSort);
@@ -94,6 +94,66 @@ namespace CsvParser.Services
 
             WriteWithColor("Your property doesn't exist!", ConsoleColor.DarkRed);
             return list;
+        }
+
+        private static IEnumerable<User> SortForOrder(IEnumerable<User> list, int typeOfOrder)
+        {
+            WriteWithColor("User.Paiment has such property for sorting: \n 1. MaxSum \n 2.Price Equal \n 3.OrderBy Count", ConsoleColor.DarkCyan);
+            WriteWithColor("Choose property (enter value, like: 1 for MaxSum)", ConsoleColor.DarkGreen);
+            var type = 0;
+            if (Int32.TryParse(Console.ReadLine(), out type))
+            {
+                return type switch
+                {
+                    1 => SortForOrderMaxSum(list),
+                    2 => SortForOrderPriceEqual(list),
+                    _ => OrderForOrders(list, typeOfOrder)
+                };
+            }
+
+            WriteWithColor("Your property doesn't exist!", ConsoleColor.DarkRed);
+            return list;
+        }
+
+        private static IEnumerable<User> SortForOrderPriceEqual(IEnumerable<User> list)
+        {
+            var sortedList = new List<User>();
+            var orderList = GetOrders(list);
+            WriteWithColor("Enter yout price:", ConsoleColor.DarkGreen);
+            decimal price = default;
+            if (!Decimal.TryParse(Console.ReadLine(), out price))
+            {
+                WriteWithColor("You enter no valid price!", ConsoleColor.DarkRed);
+                return list;
+            }
+
+            if (orderList.Any(x => x.Price == price))
+            {
+                foreach (var item in orderList)
+                {
+                    sortedList.AddRange(list.Where(x => item.Price >= price && x.Id == item.UserId));
+                }
+                return sortedList;
+            }
+
+            WriteWithColor("There are no elements equal to your price!", ConsoleColor.DarkRed);
+            return list;
+        }
+
+        private static IEnumerable<User> SortForOrderMaxSum(IEnumerable<User> list)
+        {
+            var ordersList = GetOrders(list);
+            var sortedList = new List<User>();
+            try
+            {
+                sortedList.Add(list.OrderByDescending(x => x.Orders.Sum(n => n.Price)).First());
+                return sortedList;
+            }
+            catch
+            {
+                WriteWithColor("Collection hasn't any orders!", ConsoleColor.DarkRed);
+                return list;
+            }
         }
 
         private static IEnumerable<User> SortForPaymentName(IEnumerable<User> list)
