@@ -66,7 +66,7 @@ namespace CsvParser.Services
             }
 
             WriteWithColor("This prop isn't exist!", ConsoleColor.DarkRed);
-            return null;
+            return listForSort;
         }
 
         private static IEnumerable<User> SortForPayment(IEnumerable<User> list, int typeOfOrder)

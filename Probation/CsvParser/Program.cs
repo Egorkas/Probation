@@ -19,8 +19,6 @@ namespace CsvParser
             
             var sortedList = CollectionSort.ChoosePropForSort(list);
             sortedList.Display();
-            
-            Console.WriteLine("Hello World!");
         }
     }
 }
